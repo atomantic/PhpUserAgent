@@ -9,15 +9,17 @@
 * @param string $u_agent
 * @return array an array with browser, version and platform keys
 */
-function parse_user_agent( $u_agent = null ) { 
-	if(is_null($u_agent)) $u_agent = $_SERVER['HTTP_USER_AGENT'];
+function parse_user_agent( $u_agent = null ) {
+	if(is_null($u_agent) && isset($_SERVER['HTTP_USER_AGENT'])) $u_agent = $_SERVER['HTTP_USER_AGENT'];
 
 	$data = array(
 		'platform' => null,
 		'browser'  => null,
 		'version'  => null,
 	);
-
+	
+	if(!$u_agent) return $data;
+	
 	if( preg_match('/\((.*?)\)/im', $u_agent, $regs) ) {
 
 		/*
